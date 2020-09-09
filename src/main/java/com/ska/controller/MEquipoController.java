@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ska.entity.MEquipo;
 import com.ska.repository.RepositoryMEquipo;
@@ -31,8 +32,9 @@ public class MEquipoController {
 		return ResponseEntity.ok(equipos);
 	}
 	
-	@RequestMapping(value="{id}")
-	public ResponseEntity<MEquipo> MEquipoId(@PathVariable("id") Long id){
+	//@RequestMapping(value="{id}")
+	@RequestMapping(value="")
+	public ResponseEntity<MEquipo> MEquipoId(@RequestParam("id") Long id){
 		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
 		if(idequipo.isPresent()) {
 			return ResponseEntity.ok(idequipo.get());
@@ -67,6 +69,7 @@ public class MEquipoController {
 			updateEquipo.setTipo_computadora(estatus.getTipo_computadora());
 			updateEquipo.setNombre_sistema_operativo(estatus.getNombre_sistema_operativo());
 			updateEquipo.setTipo_sistema_operativo(estatus.getTipo_sistema_operativo());
+			updateEquipo.setDireccion_mac(estatus.getDireccion_mac());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			
