@@ -23,6 +23,7 @@ public class Accesorio {
 	private String producto;
 	private String hecho_en;
 	private String serie;
+	private Long id_equipo;
 
 	@ManyToOne//Relacion de N:1, con la tabla EstatusRecurso
 	@JoinColumn(name = "id_estatus", nullable = false)//nombre del atributo en la tabla EstatusRecurso
@@ -110,12 +111,21 @@ public class Accesorio {
 	public void setSerie(String serie) {
 		this.serie = serie;
 	}
+	
+
+	public Long getId_equipo() {
+		return id_equipo;
+	}
+
+	public void setId_equipo(Long id_equipo) {
+		this.id_equipo = id_equipo;
+	}
 
 	@Override //Metodo ToString
 	public String toString() {
 		return "Accesorio [id_accesorio=" + id_accesorio + ", nombre_accesorio=" + nombre_accesorio + ", marca=" + marca
 				+ ", modelo=" + modelo + ", producto=" + producto + ", hecho_en=" + hecho_en + ", serie=" + serie
-				+ ", estatus=" + id_estatus + "]";
+				+ ", estatus=" + id_estatus + ", id_equipo=" + id_equipo + "]";
 	}
 
 }

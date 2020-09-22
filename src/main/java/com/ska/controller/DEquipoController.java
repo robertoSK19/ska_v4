@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 
@@ -51,9 +52,12 @@ public class DEquipoController {
 	}
 
 	// Guarda nueva información a la tabla
-	@PostMapping(value = "/post/{equipo_id},{estatus_id}")
-	public ResponseEntity<DEquipo> CrearDEquipo(@PathVariable(value = "estatus_id") Long est_id,
-			@PathVariable(value = "equipo_id") Long equipo_id, @RequestBody DEquipo dequipo) {
+	//@PostMapping(value = "/post/{equipo_id},{estatus_id}")
+	@PostMapping(value = "/post")
+//	public ResponseEntity<DEquipo> CrearDEquipo(@PathVariable(value = "estatus_id") Long est_id,
+	//		@PathVariable(value = "equipo_id") Long equipo_id, @RequestBody DEquipo dequipo) {
+	public ResponseEntity<DEquipo> CrearDEquipo(@RequestParam("estatus_id") Long est_id, @RequestParam("equipo_id") Long equipo_id,
+			@RequestBody DEquipo dequipo) {
 
 		// referencia a la tabla MEquipo
 		this.dEquipo = dequipo;
@@ -74,15 +78,43 @@ public class DEquipoController {
 
 	// Actualizar los campos de la tabla por ID
 	@PutMapping(value = "/put")
-	public ResponseEntity<DEquipo> EditarDEquipo(@RequestBody DEquipo dequipo) {
+	public ResponseEntity<DEquipo> EditarDEquipo(@RequestParam ("id_estatus") Long id_estatus,  @RequestBody DEquipo dequipo) {
 
 		Optional<DEquipo> optionalUsuario = DEquipoRepo.findById(dequipo.getId_dequipo());
 		if (optionalUsuario.isPresent()) {
 			DEquipo updateDEquipo = optionalUsuario.get();
-			updateDEquipo.setEstatusRecurso(dequipo.getEstatusRecurso());
+			//updateDEquipo.setEstatusRecurso(dequipo.getEstatusRecurso());
+			estaturecursoRepo.findById(id_estatus).map(esid -> {
+				updateDEquipo.setEstatusRecurso(esid);
+				return updateDEquipo;
+			});
 			updateDEquipo.setFecha_actualizacion_estatus(dequipo.getFecha_actualizacion_estatus());
 			updateDEquipo.setComentarios(dequipo.getComentarios());
 			updateDEquipo.setDisco_duro_solido(dequipo.getDisco_duro_solido());
+			// nota: no esta el atributo, de MEquipo, ya que este no cambiara mientras se
+			// quiera cambiar DEquipo
+
+			DEquipoRepo.save(updateDEquipo);
+			return ResponseEntity.ok(updateDEquipo);
+
+		} else {
+			return ResponseEntity.noContent().build();
+		}
+	}
+	@PutMapping(value = "/cambiarEstatus")
+	public ResponseEntity<DEquipo> CambiarEstatusDEquipo(@RequestParam ("id_estatus") Long id_estatus,  @RequestParam ("id_dequipo") Long id_dequipo) {
+
+		Optional<DEquipo> optionalUsuario = DEquipoRepo.findById(id_dequipo);
+		if (optionalUsuario.isPresent()) {
+			DEquipo updateDEquipo = optionalUsuario.get();
+			//updateDEquipo.setEstatusRecurso(dequipo.getEstatusRecurso());
+			estaturecursoRepo.findById(id_estatus).map(esid -> {
+				updateDEquipo.setEstatusRecurso(esid);
+				return updateDEquipo;
+			});
+			updateDEquipo.setFecha_actualizacion_estatus(updateDEquipo.getFecha_actualizacion_estatus());
+			updateDEquipo.setComentarios(updateDEquipo.getComentarios());
+			updateDEquipo.setDisco_duro_solido(updateDEquipo.getDisco_duro_solido());
 			// nota: no esta el atributo, de MEquipo, ya que este no cambiara mientras se
 			// quiera cambiar DEquipo
 
