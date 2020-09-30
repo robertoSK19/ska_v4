@@ -2,17 +2,21 @@ package com.ska.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clasesid.AccesorioNPK;
+
 @Entity
-@Table(name = "accesorioN")
+@Table(name = "accesorion")
+@IdClass(value = AccesorioNPK.class)
 public class AccesoriosN {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "asignacionAccesorios_id_asignacion", nullable = false)
+	@JoinColumn(name = "asignacionaccesorios_id_asignacion", nullable = false)
 	private AsignacionAccesorios id_asignacion;
 	
 	@Id
