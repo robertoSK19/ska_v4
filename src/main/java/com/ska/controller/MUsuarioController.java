@@ -1,12 +1,18 @@
 package com.ska.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,45 +21,67 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.ska.constantes.Constantes;
 import com.ska.entity.MUsuario;
 import com.ska.repository.RepositoryMUsuario;
 import com.ska.repository.RepositoryRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.ska.validadores.*;
+
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT })
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,RequestMethod.DELETE  })
 public class MUsuarioController {
 
+	public static final String nombreHeader = Constantes.nombreHeader;
+	public static final String respToken = Constantes.respTokenValido;
 	private static final Logger log = LoggerFactory.getLogger(MUsuarioController.class);
+	public validadorToken validador= new validadorToken();
 	@Autowired
 	private RepositoryMUsuario usuario;
 	private MUsuario muUsuario;
 
 	@Autowired
 	private RepositoryRoles repositoryRoles;
-
-	@RequestMapping("/get")
-	public List<MUsuario> VerUsuarios() {
-		log.info("todos los usuarios");
-		return usuario.findAll();
+	
+	HttpStatus codigo=null;
+	
+	@RequestMapping("/get") 
+	public ResponseEntity<List<MUsuario>> VerUsuarios(@RequestHeader (nombreHeader) String token) {
+		String resp=validador.validarToken(token);
+		
+		if (resp == respToken) {
+			return ResponseEntity.ok(usuario.findAll());
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
-
+	
 	@RequestMapping(value = "/get/{id}")
-	public ResponseEntity<MUsuario> UsuarioId(@PathVariable("id") Long id) {
+	public ResponseEntity<MUsuario> UsuarioId(@RequestHeader (nombreHeader) String token, @PathVariable("id") Long id  ) {
+		String resp=validarToken(token);
+		
 		Optional<MUsuario> idUsuario = usuario.findById(id);
-		if (idUsuario.isPresent()) {
+		if (idUsuario.isPresent() && resp == respToken) {
 			return ResponseEntity.ok(idUsuario.get());
+		} else if (idUsuario.isPresent() && resp != respToken) {
+			return ResponseEntity.badRequest().build();
 		} else {
 			return ResponseEntity.noContent().build();
 		}
+		
 	}
 
 	//@RequestMapping(value = "/con_user/{correo},{password}")
@@ -66,7 +94,8 @@ public class MUsuarioController {
 		
 		Gson gson = new Gson();
 		 
-		String msn="";
+		String msnR="";
+		String msn = "";
 		HttpStatus codigo=null;
 		for(MUsuario u:ListaUser) {
 			if(u.getCorreo().equals(correo)) {
@@ -74,8 +103,6 @@ public class MUsuarioController {
 				break;
 			}else {
 				ifUser=false;
-				//log.info("usuario o constraseña incorrectos");
-				//return new ResponseEntity<>("Usuario incorrecto",HttpStatus.NO_CONTENT);
 			}
 		}
 		
@@ -86,7 +113,13 @@ public class MUsuarioController {
 				aux_pass=getMD5(u.getContraseña());	
 					if(aux_pass.equals(pass)) {
 						log.info("acceso correcto");
-						msn=gson.toJson(u.getRol());
+						msnR=(u.getRol().getRol());
+						JsonObject msnJ = new JsonObject();
+						msnJ.addProperty("rol", msnR);
+						msnJ.addProperty("nombre",u.getNombres());
+						msnJ.addProperty("id",u.getId_usuario());
+
+						msn = msnJ.toString();
 						codigo = HttpStatus.OK;
 						//return ResponseEntity.ok(gson.toJson(u.getRol()));
 					}
@@ -109,8 +142,12 @@ public class MUsuarioController {
 	
 
 	@PostMapping(value = "/post/{roles_id}")
-	public ResponseEntity<MUsuario> CrearUsuario(@PathVariable(value = "roles_id") Long roles_id,
+	public ResponseEntity<MUsuario> CrearUsuario(@RequestHeader (nombreHeader) String token, @PathVariable(value = "roles_id") Long roles_id,
 			@RequestBody MUsuario Usuario) {
+		String resp=validarToken(token);
+		if (resp == respToken) {
+		System.out.println(roles_id);
+		System.out.println(this.muUsuario);
 		this.muUsuario = Usuario;
 		repositoryRoles.findById(roles_id).map(u -> {
 			this.muUsuario.setRol(u);
@@ -118,20 +155,28 @@ public class MUsuarioController {
 		});
 		MUsuario nuevoUsuario = usuario.save(Usuario);
 		return ResponseEntity.ok(nuevoUsuario);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<MUsuario> EliminarUsuario(@PathVariable("id") Long id) {
+	public ResponseEntity<MUsuario> EliminarUsuario(@RequestHeader (nombreHeader) String token, @PathVariable("id") Long id) {
+		String resp = validarToken(token);
+		if (resp == respToken) {
 		usuario.deleteById(id);
 		return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@PutMapping(value = "/put/{roles_id}")
-	public ResponseEntity<MUsuario> EditarUsuario(@PathVariable(value = "roles_id") Long roles_id,
+	public ResponseEntity<MUsuario> EditarUsuario(@RequestHeader (nombreHeader) String token, @PathVariable(value = "roles_id") Long roles_id,
 			@RequestBody MUsuario Usuario) {
-
+		String resp = validarToken(token); 
 		Optional<MUsuario> optionalUsuario = usuario.findById(Usuario.getId_usuario());
-		if (optionalUsuario.isPresent()) {
+		if (optionalUsuario.isPresent() && resp == respToken) {
 			this.muUsuario = Usuario;
 			repositoryRoles.findById(roles_id).map(u -> {
 				this.muUsuario.setRol(u);
@@ -141,6 +186,8 @@ public class MUsuarioController {
 			MUsuario nuevoUsuario = usuario.save(Usuario);
 			return ResponseEntity.ok(nuevoUsuario);
 
+		} else if (optionalUsuario.isPresent() && resp != respToken) {
+			return ResponseEntity.badRequest().build();
 		} else {
 
 			return ResponseEntity.noContent().build();
@@ -164,5 +211,44 @@ public class MUsuarioController {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	public String validarToken(String token) {
+		String DatosUser = "";
+		String valorToken = "";
+		String msn = "";
+		valorToken = token;
+		if (valorToken == null || valorToken == "") {
+			System.out.println("vacio");
+			msn = "token vacio";
+		} else {
+			byte [] barr = Base64.getDecoder().decode(valorToken); 
+			System.out.println("Decoded value is " + new String(barr));
+			DatosUser=new String(barr);
+			JsonParser parser = new JsonParser();
+			
+			JsonElement jsonTree = parser.parse(DatosUser);
+			System.out.println(jsonTree);
+			JsonObject jsonObject = jsonTree.getAsJsonObject();
+			int id_user = Integer.valueOf(jsonObject.get("id_user").toString());
+			String nombre = jsonObject.get("nombre").toString().replace("\"", "");
+			String rol = jsonObject.get("rol").toString().replace("\"", "");
+			if(jsonTree.isJsonObject()) {
+//				Optional<MUsuario> idUsuario = usuario.findById((long) id_user);
+//				if (idUsuario.isPresent()) {
+//					if (idUsuario.get().getNombres().equals(nombre) && idUsuario.get().getRol().getRol().equals(rol)) {
+//						msn = respToken;
+//					} else {
+//						msn = "Datos Incorrectos";
+//					}
+//				} else {
+//					msn = "No se encontro el usuario";
+//				}
+				
+			} else {
+				msn = "token invalido";
+			}
+		}
+		return msn;
+	}
+	
 }

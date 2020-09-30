@@ -2,6 +2,9 @@ package com.ska.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,9 @@ import com.ska.repository.RepositoryEstatusRecurso;
 @RestController
 @RequestMapping("/accesorios")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT })
+
 public class AccesorioController {
+	private static final Logger log = LoggerFactory.getLogger(AccesorioController.class);
 	@Autowired
 	private RepositoryEstatusRecurso repoestatusRecurso;
 	@Autowired
@@ -32,6 +37,9 @@ public class AccesorioController {
 	//@RequestMapping("/get")
 	@RequestMapping(value = "/get",method = RequestMethod.GET)
 	public List<Accesorio> verAccesorios() {
+		List<Accesorio> ListaAccesorio = repoAccesorio.findAll();
+		// log.info("tamñano: " + ListaAccesorio.size());
+		
 		return repoAccesorio.findAll();
 	}
 
@@ -91,6 +99,9 @@ public class AccesorioController {
 	@PostMapping(value = "/post")
 	public ResponseEntity<Accesorio> CrearAccesorio(@RequestParam("estatus_id") Long estatus_id,
 			@RequestBody Accesorio accesorio) {
+		List<Accesorio> ListaAccesorio = repoAccesorio.findAll();
+		int indiceAccesorio = 0;
+		indiceAccesorio = ListaAccesorio.size()+1;
 		this.accesorio = accesorio;
 
 		repoestatusRecurso.findById(estatus_id).map(u -> {
@@ -98,6 +109,7 @@ public class AccesorioController {
 			;
 			return this.accesorio;
 		});
+		this.accesorio.setNombre_accesorio("Accesorio" + indiceAccesorio);
 
 		Accesorio nuevoAccesorio = repoAccesorio.save(accesorio);
 		return ResponseEntity.ok(nuevoAccesorio);
