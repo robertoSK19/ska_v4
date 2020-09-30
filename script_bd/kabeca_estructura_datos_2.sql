@@ -159,7 +159,7 @@ CREATE TABLE `asignacionaccesorios` (
   UNIQUE KEY `id_asignacion_UNIQUE` (`id_asignacion`),
   KEY `fk_Asignacion_EstatusRecurso1_idx` (`id_estatus`),
   CONSTRAINT `id_estatusrecurso0` FOREIGN KEY (`id_estatus`) REFERENCES `estatusrecurso` (`id_estatus`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +284,7 @@ CREATE TABLE `historico` (
   UNIQUE KEY `id_equipo_UNIQUE` (`id_historico`),
   KEY `fk_Historico_mequipo1_idx` (`mequipo_id_equipo`),
   CONSTRAINT `fk_Historico_mequipo1` FOREIGN KEY (`mequipo_id_equipo`) REFERENCES `mequipo` (`id_equipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
