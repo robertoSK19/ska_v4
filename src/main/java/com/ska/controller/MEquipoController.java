@@ -70,6 +70,7 @@ public class MEquipoController {
 			updateEquipo.setNombre_sistema_operativo(estatus.getNombre_sistema_operativo());
 			updateEquipo.setTipo_sistema_operativo(estatus.getTipo_sistema_operativo());
 			updateEquipo.setDireccion_mac(estatus.getDireccion_mac());
+			updateEquipo.setFecha_fabricacion(estatus.getFecha_fabricacion());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			

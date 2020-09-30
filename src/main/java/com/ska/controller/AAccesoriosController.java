@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ska.constantes.Constantes;
 import com.ska.entity.AAccesorio;
 import com.ska.repository.RepositoryAAccesorio;
 import com.ska.repository.RepositoryAccesorio;
@@ -23,6 +25,10 @@ import com.ska.repository.RepositoryAsignacion;
 @RequestMapping("/aaccesorios")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT })
 public class AAccesoriosController {
+	
+	public MUsuarioController UserControl;
+	public static final String nombreHeader = Constantes.nombreHeader;
+	public static final String respToken = Constantes.respTokenValido;
 
 	@Autowired
 	private RepositoryAAccesorio repositoryAAccesorio;
@@ -42,10 +48,15 @@ public class AAccesoriosController {
 
 	// Lee información mediante la ID de la tabla
 	@RequestMapping(value = "/get/{id}")
-	public ResponseEntity<AAccesorio> verAAcesorios(@PathVariable("id") Long id) {
+	public ResponseEntity<AAccesorio> verAAcesorios(@RequestHeader (nombreHeader) String token, @PathVariable("id") Long id) {
 		Optional<AAccesorio> idAccesorio = repositoryAAccesorio.findById(id);
-		if (idAccesorio.isPresent()) {
+		System.out.println(token);
+		String resp = UserControl.validarToken(token);
+		System.out.println(resp);
+		if (idAccesorio.isPresent() && resp == respToken ) {
 			return ResponseEntity.ok(idAccesorio.get());
+		} else if (idAccesorio.isPresent() && resp != respToken ) {
+				return ResponseEntity.badRequest().build();
 		} else {
 			return ResponseEntity.noContent().build();
 		}
