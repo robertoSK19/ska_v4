@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ska.entity.Software;
 import com.ska.repository.RepositoryDEquipo;
 import com.ska.repository.RepositorySoftware;
-import com.ska.repository.RepositorySoftware_tipo;
 
 @RestController
 @RequestMapping("/software")
@@ -28,9 +27,7 @@ public class SoftwareController {
 	@Autowired
 	private RepositoryDEquipo mequiporepositorio;
 
-	@Autowired
-	private RepositorySoftware_tipo software_tiporepo;
-
+	
 	// Lee toda la información de la tabla
 	@GetMapping(value = "/get")
 	public ResponseEntity<List<Software>> VerSotware() {
@@ -47,57 +44,5 @@ public class SoftwareController {
 		} else {
 			return ResponseEntity.noContent().build();
 		}
-	}
-
-	// Guarda nueva información a la tabla
-	@PostMapping(value = "/post/{id_dequipo},{id_software_tipo}")
-	public ResponseEntity<Software> CrearSoftware(@PathVariable(value = "id_dequipo") Long id_dequipo,
-			@PathVariable(value = "id_software_tipo") Long id_software_tipo, @RequestBody Software software) {
-		
-			this.software = software;
-		mequiporepositorio.findById(id_dequipo).map(u -> {
-			this.software.setId_dequipo(u);
-			return this.software;
-		});
-
-		software_tiporepo.findById(id_software_tipo).map(u -> {
-			this.software.setId_software_tipo(u);
-			return this.software;
-		});
-		
-		Software nuevoSoft = softwarerepo.save(software);
-		return ResponseEntity.ok(nuevoSoft);
-	}// NOTA:La fecha en el Json debe estar separada por giones yyyy-mm-dd
-
-	// Actualizar los campos de la tabla por ID
-	@PutMapping(name = "/put/{id_dequipo},{id_software_tipo}")
-	public ResponseEntity<Software> EditarSoftware(@RequestBody Software Software,
-			@PathVariable(value = "id_dequipo") Long id_dequipo,
-			@PathVariable(value = "id_software_tipo") Long id_software_tipo) {
-
-		Optional<Software> optionalSoftware = softwarerepo.findById(Software.getId_software());
-		if (optionalSoftware.isPresent()) {
-			this.software = Software;
-
-			mequiporepositorio.findById(id_dequipo).map(u -> {
-				this.software.setId_dequipo(u);
-				return this.software;
-			});
-
-			software_tiporepo.findById(id_software_tipo).map(u -> {
-				this.software.setId_software_tipo(u);
-				return this.software;
-			});
-
-			Software updateSoftware = optionalSoftware.get();
-			updateSoftware.setNombre_software(Software.getNombre_software());
-
-			softwarerepo.save(updateSoftware);
-			return ResponseEntity.ok(updateSoftware);
-
-		} else {
-			return ResponseEntity.noContent().build();
-		}
-
 	}
 }
