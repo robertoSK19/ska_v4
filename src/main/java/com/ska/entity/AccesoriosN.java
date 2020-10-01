@@ -16,12 +16,12 @@ public class AccesoriosN {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "asignacionaccesorios_id_asignacion", nullable = false)
+	@JoinColumn(name = "id_asignacion", nullable = false)
 	private AsignacionAccesorios id_asignacion;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "accesorio_id_accesorio", nullable = false)
+	@JoinColumn(name = "id_accesorio", nullable = false)
 	private Accesorio id_accesorio;
 	
 	public AccesoriosN () {
