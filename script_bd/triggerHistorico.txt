@@ -1,0 +1,10 @@
+DELIMITER //
+CREATE TRIGGER CargaHistorialEquipo AFTER UPDATE ON mequipo
+FOR EACH ROW BEGIN
+    INSERT INTO historico (nombre_equipo, marca, modelo, modelo_equipo_cmd, numero_serie, numero_serie_cmd, procesador, 
+	ram, disco_duro, tipo_computadora, fecha_fabricacion, nombre_sistema_operativo, direccion_mac, mequipo_id_equipo) 
+    SELECT OLD.nombre_equipo, OLD.marca, OLD.modelo, OLD.modelo_equipo_cmd, OLD.numero_serie, OLD.numero_serie_cmd, OLD.procesador, 
+	OLD.ram, OLD.disco_duro, OLD.tipo_computadora, OLD.fecha_fabricacion, OLD.nombre_sistema_operativo, OLD.direccion_mac, id_equipo
+	FROM mequipo
+	WHERE id_equipo = OLD.id_equipo;
+END //

@@ -26,6 +26,7 @@ public class Accesorio {
 	private Long id_equipo;
 	// cambio 24/08/2020
 	private float costo; 
+	private String descripcion;
 
 	@ManyToOne//Relacion de N:1, con la tabla EstatusRecurso
 	@JoinColumn(name = "id_estatus", nullable = false)//nombre del atributo en la tabla EstatusRecurso
@@ -37,7 +38,7 @@ public class Accesorio {
 
 	//constructor 
 	public Accesorio(Long id_accesorio, String nombre_accesorio, String marca, String modelo, String producto,
-			String hecho_en, String serie, EstatusRecurso estatus) {
+			String hecho_en, String serie, EstatusRecurso estatus, String descripcion) {
 		super();
 		this.id_accesorio = id_accesorio;
 		this.nombre_accesorio = nombre_accesorio;
@@ -47,6 +48,7 @@ public class Accesorio {
 		this.hecho_en = hecho_en;
 		this.serie = serie;
 		this.id_estatus = estatus;
+		this.descripcion = descripcion;
 	}
 
 	//metodos get´s y set´s de los atributos
@@ -130,12 +132,20 @@ public class Accesorio {
 	public void setCosto(float costo) {
 		this.costo = costo;
 	}
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
 	@Override //Metodo ToString
 	public String toString() {
 		return "Accesorio [id_accesorio=" + id_accesorio + ", nombre_accesorio=" + nombre_accesorio + ", marca=" + marca
 				+ ", modelo=" + modelo + ", producto=" + producto + ", hecho_en=" + hecho_en + ", serie=" + serie
-				+ ", estatus=" + id_estatus + ", id_equipo=" + id_equipo + ", costo=" + costo +"]";
+				+ ", estatus=" + id_estatus + ", id_equipo=" + id_equipo + ", costo=" + costo + "descripcion=" + descripcion + "]";
 	}
 
 }
