@@ -1,10 +1,14 @@
 package com.ska.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,10 +35,12 @@ public class Historico {
 	private String tipo_sistema_operativo;
 	private String direccion_mac;
 	
-	@ManyToOne
-	@JoinColumn(name="mequipo_id_equipo", nullable = false)
-	private MEquipo id_equipo;
-	
+	@JoinTable(name = "equiposoftware",
+			joinColumns = @JoinColumn (name = "id_software_historico", nullable = false),
+			inverseJoinColumns = @JoinColumn (name = "software_id_software", nullable = false))
+	@ManyToMany
+	private List<Software> software;
+		
 	public Historico() {
 		
 	}
@@ -159,18 +165,18 @@ public class Historico {
 		this.direccion_mac = direccion_mac;
 	}
 
-	public MEquipo getId_equipo() {
-		return id_equipo;
+	public List<Software> getSoftware() {
+		return software;
 	}
 
-	public void setId_equipo(MEquipo id_equipo) {
-		this.id_equipo = id_equipo;
+	public void setSoftware(List<Software> software) {
+		this.software = software;
 	}
 
 	public Historico(long id_historico, String nombre_equipo, String marca, String modelo, String numero_serie,
 			String modelo_equipo_cmd, String numero_serie_cmd, String procesador, int ram, String disco_duro,
 			String tipo_computadora, String fecha_fabricacion, String nombre_sistema_operativo,
-			String tipo_sistema_operativo, String direccion_mac, MEquipo id_equipo) {
+			String tipo_sistema_operativo, String direccion_mac, List<MEquipo> mequipo, List<Software> software) {
 		super();
 		this.id_historico = id_historico;
 		this.nombre_equipo = nombre_equipo;
@@ -187,8 +193,8 @@ public class Historico {
 		this.nombre_sistema_operativo = nombre_sistema_operativo;
 		this.tipo_sistema_operativo = tipo_sistema_operativo;
 		this.direccion_mac = direccion_mac;
-		this.id_equipo = id_equipo;
+		this.software = software;
 	}
-	
+
 	
 }

@@ -33,8 +33,8 @@ public class MEquipoController {
 	}
 	
 	//@RequestMapping(value="{id}")
-	@RequestMapping(value="")
-	public ResponseEntity<MEquipo> MEquipoId(@RequestParam("id") Long id){
+	@RequestMapping(value="/get/{id}")
+	public ResponseEntity<MEquipo> MEquipoId(@PathVariable("id") Long id){
 		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
 		if(idequipo.isPresent()) {
 			return ResponseEntity.ok(idequipo.get());

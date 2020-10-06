@@ -1,12 +1,14 @@
 package com.ska.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,6 +24,7 @@ public class Software {
 	private String nombre_software;
 	private String no_serie;
 	private Date fecha_licencia;
+	
 
 	public Software() {
 		
@@ -59,13 +62,14 @@ public class Software {
 		this.fecha_licencia = fecha_licencia;
 	}
 
-	public Software(Long id_software, String nombre_software, String no_serie, Date fecha_licencia) {
+	public Software(Long id_software, String nombre_software, String no_serie, Date fecha_licencia,
+			List<MEquipo> mequipo) {
 		super();
 		this.id_software = id_software;
 		this.nombre_software = nombre_software;
 		this.no_serie = no_serie;
 		this.fecha_licencia = fecha_licencia;
 	}
-	
+
 	
 }

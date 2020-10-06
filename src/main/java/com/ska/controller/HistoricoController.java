@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +30,8 @@ public class HistoricoController {
 		return ResponseEntity.ok(historico);
 	}
 	
-	@RequestMapping(value="")
-	public ResponseEntity<Historico> HistoricoId(@RequestParam("id") Long id){
+	@RequestMapping(value="/get/{id}")
+	public ResponseEntity<Historico> HistoricoId(@PathVariable("id") Long id){
 		Optional<Historico> idhistorico = historicoRepositorio.findById(id);
 		if(idhistorico.isPresent()) {
 			return ResponseEntity.ok(idhistorico.get());
