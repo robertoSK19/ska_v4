@@ -60,8 +60,8 @@ public class MUsuarioController {
 	
 	@RequestMapping("/get") 
 	public ResponseEntity<List<MUsuario>> VerUsuarios(@RequestHeader (nombreHeader) String token) {
-		String resp=validador.validarToken(token);
-		
+		String resp=validarToken(token);
+		System.out.println("3" +resp);
 		if (resp == respToken) {
 			return ResponseEntity.ok(usuario.findAll());
 		} else {
@@ -71,8 +71,10 @@ public class MUsuarioController {
 	
 	@RequestMapping(value = "/get/{id}")
 	public ResponseEntity<MUsuario> UsuarioId(@RequestHeader (nombreHeader) String token, @PathVariable("id") Long id  ) {
-		String resp=validarToken(token);
+		System.out.println("token " +token);
+		String resp=validador.validarToken(token);
 		
+		System.out.println("2 "+ resp);
 		Optional<MUsuario> idUsuario = usuario.findById(id);
 		if (idUsuario.isPresent() && resp == respToken) {
 			return ResponseEntity.ok(idUsuario.get());
@@ -144,7 +146,8 @@ public class MUsuarioController {
 	@PostMapping(value = "/post/{roles_id}")
 	public ResponseEntity<MUsuario> CrearUsuario(@RequestHeader (nombreHeader) String token, @PathVariable(value = "roles_id") Long roles_id,
 			@RequestBody MUsuario Usuario) {
-		String resp=validarToken(token);
+		String resp=validador.validarToken(token);
+		System.out.println("1 " +resp);
 		if (resp == respToken) {
 		System.out.println(roles_id);
 		System.out.println(this.muUsuario);
@@ -162,7 +165,7 @@ public class MUsuarioController {
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<MUsuario> EliminarUsuario(@RequestHeader (nombreHeader) String token, @PathVariable("id") Long id) {
-		String resp = validarToken(token);
+		String resp = validador.validarToken(token);
 		if (resp == respToken) {
 		usuario.deleteById(id);
 		return ResponseEntity.noContent().build();
@@ -174,7 +177,7 @@ public class MUsuarioController {
 	@PutMapping(value = "/put/{roles_id}")
 	public ResponseEntity<MUsuario> EditarUsuario(@RequestHeader (nombreHeader) String token, @PathVariable(value = "roles_id") Long roles_id,
 			@RequestBody MUsuario Usuario) {
-		String resp = validarToken(token); 
+		String resp = validador.validarToken(token); 
 		Optional<MUsuario> optionalUsuario = usuario.findById(Usuario.getId_usuario());
 		if (optionalUsuario.isPresent() && resp == respToken) {
 			this.muUsuario = Usuario;
@@ -224,25 +227,30 @@ public class MUsuarioController {
 			byte [] barr = Base64.getDecoder().decode(valorToken); 
 			System.out.println("Decoded value is " + new String(barr));
 			DatosUser=new String(barr);
+			System.out.println("1.1." + DatosUser);
 			JsonParser parser = new JsonParser();
 			
 			JsonElement jsonTree = parser.parse(DatosUser);
-			System.out.println(jsonTree);
+			System.out.println("-" + jsonTree);
 			JsonObject jsonObject = jsonTree.getAsJsonObject();
-			int id_user = Integer.valueOf(jsonObject.get("id_user").toString());
+			System.out.println("+" + jsonObject);
+			int id_user = Integer.valueOf(jsonObject.get("id").toString());
+			System.out.println("++++" + id_user);
 			String nombre = jsonObject.get("nombre").toString().replace("\"", "");
 			String rol = jsonObject.get("rol").toString().replace("\"", "");
+			System.out.println("datos" + nombre + " " + rol + " "+ jsonTree.isJsonObject());
 			if(jsonTree.isJsonObject()) {
-//				Optional<MUsuario> idUsuario = usuario.findById((long) id_user);
-//				if (idUsuario.isPresent()) {
-//					if (idUsuario.get().getNombres().equals(nombre) && idUsuario.get().getRol().getRol().equals(rol)) {
-//						msn = respToken;
-//					} else {
-//						msn = "Datos Incorrectos";
-//					}
-//				} else {
-//					msn = "No se encontro el usuario";
-//				}
+				Optional<MUsuario> idUsuario = usuario.findById((long) id_user);
+				System.out.println("b" + idUsuario.get()+ " "+ idUsuario.isPresent());
+				if (idUsuario.isPresent()) {
+					if (idUsuario.get().getNombres().equals(nombre) && idUsuario.get().getRol().getRol().equals(rol)) {
+						msn = respToken;
+					} else {
+						msn = "Datos Incorrectos";
+					}
+				} else {
+					msn = "No se encontro el usuario";
+				}
 				
 			} else {
 				msn = "token invalido";

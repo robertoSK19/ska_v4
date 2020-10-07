@@ -51,11 +51,14 @@ public class MEquipoController {
 	
 	@PutMapping
 	public ResponseEntity<MEquipo> EditarEquipo(@RequestBody MEquipo estatus){
-		
+		System.out.println(estatus.getId_equipo());
 		Optional<MEquipo> optionalEquipo = mequiporepositorio.findById(estatus.getId_equipo());
+		System.out.println(optionalEquipo);
 		if(optionalEquipo.isPresent()) {
 			MEquipo updateEquipo = optionalEquipo.get();
+			
 			updateEquipo.setNombre_equipo(estatus.getNombre_equipo());
+			System.out.println(updateEquipo.getId_equipo());
 			updateEquipo.setMarca(estatus.getMarca());
 			updateEquipo.setModelo(estatus.getModelo());
 			updateEquipo.setNumero_serie(estatus.getNumero_serie());
