@@ -45,4 +45,11 @@ public class SoftwareController {
 			return ResponseEntity.noContent().build();
 		}
 	}
+	
+	@PostMapping(value = "/post")
+	public ResponseEntity<Software> CrearSoftware(@RequestBody Software software){
+		Software nuevoSoftare = softwarerepo.save(software);
+		return ResponseEntity.ok().build();
+	}
+	
 }

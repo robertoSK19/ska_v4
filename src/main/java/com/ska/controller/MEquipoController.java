@@ -74,6 +74,12 @@ public class MEquipoController {
 			updateEquipo.setTipo_sistema_operativo(estatus.getTipo_sistema_operativo());
 			updateEquipo.setDireccion_mac(estatus.getDireccion_mac());
 			updateEquipo.setFecha_fabricacion(estatus.getFecha_fabricacion());
+			updateEquipo.setTipo_disco_duro(estatus.getTipo_disco_duro());
+			updateEquipo.setGeneracion_procesador(estatus.getGeneracion_procesador());
+			updateEquipo.setTamaño_pantalla(estatus.getTamaño_pantalla());
+			updateEquipo.setFecha_compra(estatus.getFecha_compra());
+			updateEquipo.setLugar_compra(estatus.getLugar_compra());
+			updateEquipo.setFecha_garantia_termino(estatus.getFecha_garantia_termino());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			
