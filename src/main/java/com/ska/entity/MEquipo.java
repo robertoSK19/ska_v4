@@ -1,9 +1,17 @@
 package com.ska.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -85,24 +93,32 @@ public class MEquipo {
 		this.fecha_garantia_termino = fecha_garantia_termino;
 	}
 
-	public MEquipo() {
-		
+	@JoinTable(name = "historicoequipo", 
+			joinColumns = @JoinColumn (name= "id_historico_equipo", nullable = false),
+			inverseJoinColumns = @JoinColumn(name="id_historico", nullable = false))
+	@OneToMany
+	private List<Historico> historico;
+	
+	@JoinTable(name = "equiposoftware", 
+			joinColumns = @JoinColumn (name= "id_equipo_software", nullable = false),
+			inverseJoinColumns = @JoinColumn(name="software_id_software", nullable = false))
+	@ManyToMany
+	private List<Software> software;
+	
+	public void addHistorico(Historico histo) {
+		if(this.historico == null) {
+			this.historico = new ArrayList<>();
+		}
 	}
 	
-	public String getDireccion_mac() {
-		return direccion_mac;
+	public void addSoftware(Software soft) {
+		if(this.software == null) {
+			this.software = new ArrayList<>();
+		}
 	}
-
-	public void setDireccion_mac(String direccion_mac) {
-		this.direccion_mac = direccion_mac;
-	}
-
-	public String getEmail_gnp() {
-		return email_gnp;
-	}
-
-	public void setEmail_gnp(String email_gnp) {
-		this.email_gnp = email_gnp;
+	
+	public MEquipo() {
+		
 	}
 
 	public Long getId_equipo() {
@@ -233,12 +249,44 @@ public class MEquipo {
 		this.tipo_sistema_operativo = tipo_sistema_operativo;
 	}
 
+	public String getDireccion_mac() {
+		return direccion_mac;
+	}
+
+	public void setDireccion_mac(String direccion_mac) {
+		this.direccion_mac = direccion_mac;
+	}
+
+	public String getEmail_gnp() {
+		return email_gnp;
+	}
+
+	public void setEmail_gnp(String email_gnp) {
+		this.email_gnp = email_gnp;
+	}
+
+	public List<Historico> getHistorico() {
+		return historico;
+	}
+
+	public void setHistorico(List<Historico> historico) {
+		this.historico = historico;
+	}
+
+	public List<Software> getSoftware() {
+		return software;
+	}
+
+	public void setSoftware(List<Software> software) {
+		this.software = software;
+	}
+
 	public MEquipo(Long id_equipo, String nombre_equipo, String marca, String modelo, String numero_serie,
 			String modelo_equipo_cmd, String numero_serie_cmd, String procesador, int ram, String disco_duro,
 			String cuenta_usuario, String cuenta_usuario_contraseña, String tipo_computadora, String fecha_fabricacion,
 			String nombre_sistema_operativo, String tipo_sistema_operativo, String direccion_mac, String email_gnp,
 			String tipo_disco_duro, String generacion_procesador, String tamaño_pantalla, String fecha_compra,
-			String lugar_compra, String fecha_garantia_termino) {
+			String lugar_compra, String fecha_garantia_termino, List<Historico> historico, List<Software> software) {
 		super();
 		this.id_equipo = id_equipo;
 		this.nombre_equipo = nombre_equipo;
@@ -263,12 +311,9 @@ public class MEquipo {
 		this.tamaño_pantalla = tamaño_pantalla;
 		this.fecha_compra = fecha_compra;
 		this.lugar_compra = lugar_compra;
-		this.fecha_garantia_termino = fecha_garantia_termino;
+		this.fecha_garantia_termino = fecha_garantia_termino;	
+		this.historico = historico;
+		this.software = software;
 	}
 
-
-	
-	
-	
-	
 }
