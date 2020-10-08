@@ -1,6 +1,7 @@
 package com.ska.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -38,6 +39,13 @@ public class MEquipo {
 	private String tipo_sistema_operativo;
 	private String direccion_mac;
 	private String email_gnp;
+	private String tipo_disco_duro;
+	private String generacion_procesador;
+	private String tamano_pantalla;
+	private Date fecha_compra;
+	private String lugar_compra;
+	private Date fecha_garantia;
+	
 	
 	@JoinTable(name = "historicoequipo", 
 			joinColumns = @JoinColumn (name= "id_historico_equipo", nullable = false),
@@ -211,6 +219,54 @@ public class MEquipo {
 		this.email_gnp = email_gnp;
 	}
 
+	public String getTipo_disco_duro() {
+		return tipo_disco_duro;
+	}
+
+	public void setTipo_disco_duro(String tipo_disco_duro) {
+		this.tipo_disco_duro = tipo_disco_duro;
+	}
+
+	public String getGeneracion_procesador() {
+		return generacion_procesador;
+	}
+
+	public void setGeneracion_procesador(String generacion_procesador) {
+		this.generacion_procesador = generacion_procesador;
+	}
+
+	public String getTamano_pantalla() {
+		return tamano_pantalla;
+	}
+
+	public void setTamano_pantalla(String tamano_pantalla) {
+		this.tamano_pantalla = tamano_pantalla;
+	}
+
+	public Date getFecha_compra() {
+		return fecha_compra;
+	}
+
+	public void setFecha_compra(Date fecha_compra) {
+		this.fecha_compra = fecha_compra;
+	}
+
+	public String getLugar_compra() {
+		return lugar_compra;
+	}
+
+	public void setLugar_compra(String lugar_compra) {
+		this.lugar_compra = lugar_compra;
+	}
+
+	public Date getFecha_garantia() {
+		return fecha_garantia;
+	}
+
+	public void setFecha_garantia(Date fecha_garantia) {
+		this.fecha_garantia = fecha_garantia;
+	}
+
 	public List<Historico> getHistorico() {
 		return historico;
 	}
@@ -231,7 +287,8 @@ public class MEquipo {
 			String modelo_equipo_cmd, String numero_serie_cmd, String procesador, int ram, String disco_duro,
 			String cuenta_usuario, String cuenta_usuario_contraseña, String tipo_computadora, String fecha_fabricacion,
 			String nombre_sistema_operativo, String tipo_sistema_operativo, String direccion_mac, String email_gnp,
-			List<Historico> historico, List<Software> software) {
+			String tipo_disco_duro, String generacion_procesador, String tamaño_pantalla, Date fecha_compra,
+			String lugar_compra, Date fecha_garantia, List<Historico> historico, List<Software> software) {
 		super();
 		this.id_equipo = id_equipo;
 		this.nombre_equipo = nombre_equipo;
@@ -251,8 +308,13 @@ public class MEquipo {
 		this.tipo_sistema_operativo = tipo_sistema_operativo;
 		this.direccion_mac = direccion_mac;
 		this.email_gnp = email_gnp;
+		this.tipo_disco_duro = tipo_disco_duro;
+		this.generacion_procesador = generacion_procesador;
+		this.tamano_pantalla = tamano_pantalla;
+		this.fecha_compra = fecha_compra;
+		this.lugar_compra = lugar_compra;
+		this.fecha_garantia = fecha_garantia;
 		this.historico = historico;
 		this.software = software;
 	}
-
 }

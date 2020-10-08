@@ -105,7 +105,7 @@ public class AccesorioController {
 		this.accesorio = accesorio;
 
 		repoestatusRecurso.findById(estatus_id).map(u -> {
-			this.accesorio.setid_Estatus(u);
+			this.accesorio.setId_estatus(u);
 			;
 			return this.accesorio;
 		});
@@ -125,7 +125,7 @@ public class AccesorioController {
 			this.accesorio = accesorio;
 
 			repoestatusRecurso.findById(id).map(u -> {
-				this.accesorio.setid_Estatus(u);
+				this.accesorio.setId_estatus(u);
 				return this.accesorio;
 			});
 
@@ -152,7 +152,7 @@ public class AccesorioController {
 			this.accesorio.setHecho_en(this.accesorio.getHecho_en());
 			this.accesorio.setSerie(this.accesorio.getSerie());
 			repoestatusRecurso.findById(estatus_id).map(u -> {
-				this.accesorio.setid_Estatus(u);
+				this.accesorio.setId_estatus(u);
 				return this.accesorio;
 			});
 			

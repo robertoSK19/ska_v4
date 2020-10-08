@@ -34,6 +34,9 @@ public class Historico {
 	private String nombre_sistema_operativo;
 	private String tipo_sistema_operativo;
 	private String direccion_mac;
+	private String generacion_procesador;
+	private String tipo_disco_duro;
+	private String tamano_pantalla;
 	
 	@JoinTable(name = "equiposoftware",
 			joinColumns = @JoinColumn (name = "id_software_historico", nullable = false),
@@ -165,6 +168,30 @@ public class Historico {
 		this.direccion_mac = direccion_mac;
 	}
 
+	public String getGeneracion_procesador() {
+		return generacion_procesador;
+	}
+
+	public void setGeneracion_procesador(String generacion_procesador) {
+		this.generacion_procesador = generacion_procesador;
+	}
+
+	public String getTipo_disco_duro() {
+		return tipo_disco_duro;
+	}
+
+	public void setTipo_disco_duro(String tipo_disco_duro) {
+		this.tipo_disco_duro = tipo_disco_duro;
+	}
+
+	public String getTamano_pantalla() {
+		return tamano_pantalla;
+	}
+
+	public void setTamano_pantalla(String tamano_pantalla) {
+		this.tamano_pantalla = tamano_pantalla;
+	}
+
 	public List<Software> getSoftware() {
 		return software;
 	}
@@ -176,7 +203,8 @@ public class Historico {
 	public Historico(long id_historico, String nombre_equipo, String marca, String modelo, String numero_serie,
 			String modelo_equipo_cmd, String numero_serie_cmd, String procesador, int ram, String disco_duro,
 			String tipo_computadora, String fecha_fabricacion, String nombre_sistema_operativo,
-			String tipo_sistema_operativo, String direccion_mac, List<MEquipo> mequipo, List<Software> software) {
+			String tipo_sistema_operativo, String direccion_mac, String generacion_procesador, String tipo_disco_duro,
+			String tamaño_pantalla, List<Software> software) {
 		super();
 		this.id_historico = id_historico;
 		this.nombre_equipo = nombre_equipo;
@@ -193,8 +221,9 @@ public class Historico {
 		this.nombre_sistema_operativo = nombre_sistema_operativo;
 		this.tipo_sistema_operativo = tipo_sistema_operativo;
 		this.direccion_mac = direccion_mac;
+		this.generacion_procesador = generacion_procesador;
+		this.tipo_disco_duro = tipo_disco_duro;
+		this.tamano_pantalla = tamano_pantalla;
 		this.software = software;
 	}
-
-	
 }
