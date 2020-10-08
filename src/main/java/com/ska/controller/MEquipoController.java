@@ -33,7 +33,7 @@ public class MEquipoController {
 	}
 	
 	//@RequestMapping(value="{id}")
-	@RequestMapping(value="/get/{id}")
+	/*@RequestMapping(value="/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<MEquipo> MEquipoId(@PathVariable("id") Long id){
 		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
 		if(idequipo.isPresent()) {
@@ -41,8 +41,17 @@ public class MEquipoController {
 		}else {
 			return ResponseEntity.noContent().build();
 		}
-	}
+	}*/
 	
+	@RequestMapping(value="")
+	public ResponseEntity<MEquipo> MEquipoId(@RequestParam("id") Long id){
+		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
+		if(idequipo.isPresent()) {
+			return ResponseEntity.ok(idequipo.get());
+		}else {
+			return ResponseEntity.noContent().build();
+		}
+	}
 	@PostMapping(value="/post")
 	public ResponseEntity<MEquipo> CrearEquipo(@RequestBody MEquipo equipo){
 			MEquipo nuevoequipo = mequiporepositorio.save(equipo) ;
@@ -74,6 +83,12 @@ public class MEquipoController {
 			updateEquipo.setTipo_sistema_operativo(estatus.getTipo_sistema_operativo());
 			updateEquipo.setDireccion_mac(estatus.getDireccion_mac());
 			updateEquipo.setFecha_fabricacion(estatus.getFecha_fabricacion());
+			updateEquipo.setTipo_disco_duro(estatus.getTipo_disco_duro());
+			updateEquipo.setGeneracion_procesador(estatus.getGeneracion_procesador());
+			updateEquipo.setTamaño_pantalla(estatus.getTamaño_pantalla());
+			updateEquipo.setFecha_compra(estatus.getFecha_compra());
+			updateEquipo.setLugar_compra(estatus.getLugar_compra());
+			updateEquipo.setFecha_garantia_termino(estatus.getFecha_garantia_termino());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			
