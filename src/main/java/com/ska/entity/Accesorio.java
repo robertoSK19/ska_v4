@@ -27,6 +27,10 @@ public class Accesorio {
 	// cambio 24/08/2020
 	private float costo; 
 	private String descripcion;
+	private String capacidad;
+	private String tipo_disco_duro;
+	private String ram_bus;
+	private String ram_ranura;
 
 	@ManyToOne//Relacion de N:1, con la tabla EstatusRecurso
 	@JoinColumn(name = "id_estatus", nullable = false)//nombre del atributo en la tabla EstatusRecurso
@@ -36,30 +40,7 @@ public class Accesorio {
 	public Accesorio() {
 	}
 
-	//constructor 
-	public Accesorio(Long id_accesorio, String nombre_accesorio, String marca, String modelo, String producto,
-			String hecho_en, String serie, EstatusRecurso estatus, String descripcion) {
-		super();
-		this.id_accesorio = id_accesorio;
-		this.nombre_accesorio = nombre_accesorio;
-		this.marca = marca;
-		this.modelo = modelo;
-		this.producto = producto;
-		this.hecho_en = hecho_en;
-		this.serie = serie;
-		this.id_estatus = estatus;
-		this.descripcion = descripcion;
-	}
-
-	//metodos get´s y set´s de los atributos
-	public EstatusRecurso getid_Estatus() {
-		return id_estatus;
-	}
-
-	public void setid_Estatus(EstatusRecurso estatus) {
-		this.id_estatus = estatus;
-	}
-
+	//Constructor
 	public Long getId_accesorio() {
 		return id_accesorio;
 	}
@@ -115,7 +96,6 @@ public class Accesorio {
 	public void setSerie(String serie) {
 		this.serie = serie;
 	}
-	
 
 	public Long getId_equipo() {
 		return id_equipo;
@@ -124,7 +104,7 @@ public class Accesorio {
 	public void setId_equipo(Long id_equipo) {
 		this.id_equipo = id_equipo;
 	}
-	
+
 	public float getCosto() {
 		return costo;
 	}
@@ -132,7 +112,7 @@ public class Accesorio {
 	public void setCosto(float costo) {
 		this.costo = costo;
 	}
-	
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -141,11 +121,65 @@ public class Accesorio {
 		this.descripcion = descripcion;
 	}
 
-	@Override //Metodo ToString
-	public String toString() {
-		return "Accesorio [id_accesorio=" + id_accesorio + ", nombre_accesorio=" + nombre_accesorio + ", marca=" + marca
-				+ ", modelo=" + modelo + ", producto=" + producto + ", hecho_en=" + hecho_en + ", serie=" + serie
-				+ ", estatus=" + id_estatus + ", id_equipo=" + id_equipo + ", costo=" + costo + "descripcion=" + descripcion + "]";
+	public String getCapacidad() {
+		return capacidad;
+	}
+
+	public void setCapacidad(String capacidad) {
+		this.capacidad = capacidad;
+	}
+
+	public String getTipo_disco_duro() {
+		return tipo_disco_duro;
+	}
+
+	public void setTipo_disco_duro(String tipo_disco_duro) {
+		this.tipo_disco_duro = tipo_disco_duro;
+	}
+
+	public String getRam_bus() {
+		return ram_bus;
+	}
+
+	public void setRam_bus(String ram_bus) {
+		this.ram_bus = ram_bus;
+	}
+
+	public String getRam_ranura() {
+		return ram_ranura;
+	}
+
+	public void setRam_ranura(String ram_ranura) {
+		this.ram_ranura = ram_ranura;
+	}
+
+	public EstatusRecurso getId_estatus() {
+		return id_estatus;
+	}
+
+	public void setId_estatus(EstatusRecurso id_estatus) {
+		this.id_estatus = id_estatus;
+	}
+
+	public Accesorio(Long id_accesorio, String nombre_accesorio, String marca, String modelo, String producto,
+			String hecho_en, String serie, Long id_equipo, float costo, String descripcion, String capacidad,
+			String tipo_disco_duro, String ram_bus, String ram_ranura, EstatusRecurso id_estatus) {
+		super();
+		this.id_accesorio = id_accesorio;
+		this.nombre_accesorio = nombre_accesorio;
+		this.marca = marca;
+		this.modelo = modelo;
+		this.producto = producto;
+		this.hecho_en = hecho_en;
+		this.serie = serie;
+		this.id_equipo = id_equipo;
+		this.costo = costo;
+		this.descripcion = descripcion;
+		this.capacidad = capacidad;
+		this.tipo_disco_duro = tipo_disco_duro;
+		this.ram_bus = ram_bus;
+		this.ram_ranura = ram_ranura;
+		this.id_estatus = id_estatus;
 	}
 
 }

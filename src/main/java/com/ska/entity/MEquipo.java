@@ -1,6 +1,7 @@
 package com.ska.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -40,12 +41,15 @@ public class MEquipo {
 	private String email_gnp;
 	private String tipo_disco_duro;
 	private String generacion_procesador;
+
 	private String tamaño_pantalla;
 	private String fecha_compra;
 	private String lugar_compra;
 	private String fecha_garantia_termino;
+
 	private String id_historico_equipo;
 	private String id_equipo_software;
+
 	
 	public String getId_historico_equipo() {
 		return id_historico_equipo;
@@ -283,6 +287,7 @@ public class MEquipo {
 		this.email_gnp = email_gnp;
 	}
 
+
 	public List<Historico> getHistorico() {
 		return historico;
 	}
@@ -371,5 +376,4 @@ public class MEquipo {
 //		this.historico = historico;
 //		this.software = software;
 //	}
-
 }
