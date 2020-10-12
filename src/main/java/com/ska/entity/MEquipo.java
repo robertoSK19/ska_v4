@@ -50,6 +50,33 @@ public class MEquipo {
 	private String id_historico_equipo;
 	private String id_equipo_software;
 
+	@JoinTable(name = "historicoequipo", 
+			joinColumns = @JoinColumn (name= "id_historico_equipo", nullable = false),
+			inverseJoinColumns = @JoinColumn(name="id_historico", nullable = false))
+	@OneToMany
+	private List<Historico> historico;
+	
+	@JoinTable(name = "equiposoftware", 
+			joinColumns = @JoinColumn (name= "id_equipo_software", nullable = false),
+			inverseJoinColumns = @JoinColumn(name="software_id_software", nullable = false))
+	@ManyToMany
+	private List<Software> software;
+	
+	public MEquipo() {
+		
+	}
+	
+	public void addHistorico(Historico histo) {
+		if(this.historico == null) {
+			this.historico = new ArrayList<>();
+		}
+	}
+	
+	public void addSoftware(Software soft) {
+		if(this.software == null) {
+			this.software = new ArrayList<>();
+		}
+	}
 	
 	public String getId_historico_equipo() {
 		return id_historico_equipo;
@@ -113,34 +140,6 @@ public class MEquipo {
 
 	public void setFecha_garantia_termino(String fecha_garantia_termino) {
 		this.fecha_garantia_termino = fecha_garantia_termino;
-	}
-
-	@JoinTable(name = "historicoequipo", 
-			joinColumns = @JoinColumn (name= "id_historico_equipo", nullable = false),
-			inverseJoinColumns = @JoinColumn(name="id_historico", nullable = false))
-	@OneToMany
-	private List<Historico> historico;
-	
-	@JoinTable(name = "equiposoftware", 
-			joinColumns = @JoinColumn (name= "id_equipo_software", nullable = false),
-			inverseJoinColumns = @JoinColumn(name="software_id_software", nullable = false))
-	@ManyToMany
-	private List<Software> software;
-	
-	public void addHistorico(Historico histo) {
-		if(this.historico == null) {
-			this.historico = new ArrayList<>();
-		}
-	}
-	
-	public void addSoftware(Software soft) {
-		if(this.software == null) {
-			this.software = new ArrayList<>();
-		}
-	}
-	
-	public MEquipo() {
-		
 	}
 
 	public Long getId_equipo() {
