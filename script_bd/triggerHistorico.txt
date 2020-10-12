@@ -1,10 +1,127 @@
-DELIMITER //
-CREATE TRIGGER CargaHistorialEquipo AFTER UPDATE ON mequipo
+
+DELIMITER &&
+CREATE TRIGGER HistorialEquipoInsert AFTER INSERT ON mequipo
 FOR EACH ROW BEGIN
-    INSERT INTO historico (nombre_equipo, marca, modelo, modelo_equipo_cmd, numero_serie, numero_serie_cmd, procesador, 
-	ram, disco_duro, tipo_computadora, fecha_fabricacion, nombre_sistema_operativo, direccion_mac, mequipo_id_equipo) 
-    SELECT OLD.nombre_equipo, OLD.marca, OLD.modelo, OLD.modelo_equipo_cmd, OLD.numero_serie, OLD.numero_serie_cmd, OLD.procesador, 
-	OLD.ram, OLD.disco_duro, OLD.tipo_computadora, OLD.fecha_fabricacion, OLD.nombre_sistema_operativo, OLD.direccion_mac, id_equipo
+DECLARE idHistorico integer;
+    INSERT INTO historico ( nombre_equipo, marca, modelo, modelo_equipo_cmd, 
+    numero_serie, numero_serie_cmd, procesador, ram, disco_duro, tipo_computadora, fecha_fabricacion, 
+    nombre_sistema_operativo, direccion_mac, generacion_procesador, tipo_disco_duro, tamaño_pantalla, tipo_sistema_operativo) 
+    SELECT 
+    NEW.nombre_equipo, NEW.marca, NEW.modelo, NEW.modelo_equipo_cmd, 
+    NEW.numero_serie, NEW.numero_serie_cmd, NEW.procesador, NEW.ram,  NEW.disco_duro, NEW.tipo_computadora, NEW.fecha_fabricacion, 
+    NEW.nombre_sistema_operativo, NEW.direccion_mac, NEW.generacion_procesador,NEW.tipo_disco_duro,  NEW.tamaño_pantalla, NEW.tipo_sistema_operativo
+    FROM mequipo
+    WHERE id_equipo = NEW.id_equipo;
+    UPDATE historico 
+    SET id_software_historico = id_historico
+    WHERE id_historico = id_historico;
+    INSERT INTO historicoequipo (id_historico_equipo, id_historico) 
+    values ((select id_equipo FROM mequipo WHERE id_equipo = NEW.id_equipo ),
+    (
+    Select id_historico
+    from historico 
+    where  nombre_equipo = new.nombre_equipo and marca = new.marca and modelo = new.modelo and modelo_equipo_cmd = new.modelo_equipo_cmd and
+    numero_serie= new.numero_serie and
+    numero_serie_cmd = new.numero_serie_cmd and
+    procesador = new.procesador and
+    ram = new.ram and
+    disco_duro = new.disco_duro and
+    tipo_computadora = new.tipo_computadora and
+    fecha_fabricacion = new.fecha_fabricacion and
+    nombre_sistema_operativo = new.nombre_sistema_operativo and
+    direccion_mac = new.direccion_mac and
+    generacion_procesador = new.generacion_procesador and
+    tipo_disco_duro =  new.tipo_disco_duro and
+    tamaño_pantalla =  new.tamaño_pantalla and
+    tipo_sistema_operativo= new.tipo_sistema_operativo));
+END &&
+
+DELIMITER //
+CREATE TRIGGER HistorialEquipoUpdate AFTER UPDATE ON mequipo
+FOR EACH ROW BEGIN
+DECLARE idHistorico integer;
+IF NEW.nombre_equipo <> OLD.nombre_equipo OR
+    NEW.marca <> OLD.marca OR
+    NEW.modelo <> OLD.modelo OR
+    NEW.modelo_equipo_cmd <> OLD.modelo_equipo_cmd OR
+    NEW.numero_serie <> OLD.numero_serie OR
+    NEW.numero_serie_cmd <> OLD.numero_serie_cmd OR
+    NEW.procesador <> OLD.procesador OR
+		NEW.ram <> OLD.ram OR
+    NEW.disco_duro <> OLD.disco_duro OR
+    NEW.tipo_computadora <> OLD.tipo_computadora OR
+    NEW.fecha_fabricacion <> OLD.fecha_fabricacion OR
+    NEW.nombre_sistema_operativo <> OLD.nombre_sistema_operativo OR
+    NEW.direccion_mac <> OLD.direccion_mac OR
+    NEW.generacion_procesador <> OLD.generacion_procesador OR
+    NEW.tipo_disco_duro <> OLD.tipo_disco_duro OR
+    NEW.tamaño_pantalla <> OLD.tamaño_pantalla OR
+    NEW.tipo_sistema_operativo <> OLD.tipo_sistema_operativo 
+		
+		then
+		
+    INSERT INTO historico ( nombre_equipo,
+    marca, 
+		modelo,
+		modelo_equipo_cmd, 
+    numero_serie, 
+    numero_serie_cmd, 
+    procesador, 
+		ram, 
+    disco_duro, 
+    tipo_computadora, 
+    fecha_fabricacion, 
+    nombre_sistema_operativo, 
+    direccion_mac, 
+    generacion_procesador,
+    tipo_disco_duro,
+    tamaño_pantalla,
+    tipo_sistema_operativo) 
+    SELECT 
+    NEW.nombre_equipo, 
+    NEW.marca, 
+    NEW.modelo, 
+    NEW.modelo_equipo_cmd, 
+    NEW.numero_serie, 
+    NEW.numero_serie_cmd, 
+    NEW.procesador, 
+		NEW.ram, 
+    NEW.disco_duro, 
+    NEW.tipo_computadora, 
+    NEW.fecha_fabricacion, 
+    NEW.nombre_sistema_operativo, 
+    NEW.direccion_mac, 
+    NEW.generacion_procesador,
+    NEW.tipo_disco_duro,
+    NEW.tamaño_pantalla,
+    NEW.tipo_sistema_operativo
 	FROM mequipo
-	WHERE id_equipo = OLD.id_equipo;
+	WHERE id_equipo = NEW.id_equipo;
+  UPDATE historico 
+		SET id_software_historico = id_historico
+		WHERE id_historico = id_historico;
+  INSERT INTO historicoequipo (id_historico_equipo, id_historico) 
+    values ((select id_equipo FROM mequipo WHERE id_equipo = NEW.id_equipo ),( Select id_historico 
+    from historico where  nombre_equipo = NEW.nombre_equipo and
+    marca = NEW.marca and 
+    modelo = NEW.modelo and
+    modelo_equipo_cmd = NEW.modelo_equipo_cmd and
+    numero_serie= NEW.numero_serie and
+    numero_serie_cmd = NEW.numero_serie_cmd and
+    procesador = NEW.procesador and
+		ram = NEW.ram and
+    disco_duro = NEW.disco_duro and
+    tipo_computadora = NEW.tipo_computadora and
+    fecha_fabricacion = NEW.fecha_fabricacion and
+    nombre_sistema_operativo = NEW.nombre_sistema_operativo and
+		tipo_sistema_operativo= NEW.tipo_sistema_operativo and
+    direccion_mac = NEW.direccion_mac and
+    tipo_disco_duro =  NEW.tipo_disco_duro and
+		generacion_procesador = NEW.generacion_procesador and
+    tamaño_pantalla =  NEW.tamaño_pantalla and
+		tipo_sistema_operativo= new.tipo_sistema_operativo)
+		);
+		
+		END IF;
+		
 END //
