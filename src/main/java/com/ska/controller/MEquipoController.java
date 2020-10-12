@@ -3,6 +3,8 @@ package com.ska.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ska.entity.MEquipo;
 import com.ska.repository.RepositoryMEquipo;
 
@@ -22,7 +25,8 @@ import com.ska.repository.RepositoryMEquipo;
 @RequestMapping("equipos")
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST, RequestMethod.PUT})
 public class MEquipoController {
-	
+	MEquipo aux;
+	private static final Logger log = LoggerFactory.getLogger(MEquipoController.class);
 	@Autowired
 	private RepositoryMEquipo mequiporepositorio;
 	
@@ -54,6 +58,15 @@ public class MEquipoController {
 	}
 	@PostMapping(value="/post")
 	public ResponseEntity<MEquipo> CrearEquipo(@RequestBody MEquipo equipo){
+		this.aux = equipo;
+		List<MEquipo> equiposR = mequiporepositorio.findAll();
+		log.info("" + equiposR.size());
+		String indiceEquipo = "";
+		indiceEquipo = String.valueOf(equiposR.size()+1);
+		log.info(indiceEquipo);
+		this.aux.setId_equipo_software(indiceEquipo);
+		this.aux.setId_historico_equipo(indiceEquipo);
+		//equipo.setId_historico_equipo(200);
 			MEquipo nuevoequipo = mequiporepositorio.save(equipo) ;
 			return ResponseEntity.ok(nuevoequipo);
 	}
