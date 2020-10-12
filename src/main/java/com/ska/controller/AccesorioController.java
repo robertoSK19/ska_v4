@@ -107,6 +107,7 @@ public class AccesorioController {
 			this.accesorio.setId_estatus(u);
 			return this.accesorio;
 		});
+		
 		this.accesorio.setNombre_accesorio("Accesorio" + indiceAccesorio);
 
 		Accesorio nuevoAccesorio = repoAccesorio.save(accesorio);
