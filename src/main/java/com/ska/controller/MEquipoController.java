@@ -37,7 +37,7 @@ public class MEquipoController {
 	}
 	
 	//@RequestMapping(value="{id}")
-	/*@RequestMapping(value="/get/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<MEquipo> MEquipoId(@PathVariable("id") Long id){
 		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
 		if(idequipo.isPresent()) {
@@ -45,10 +45,10 @@ public class MEquipoController {
 		}else {
 			return ResponseEntity.noContent().build();
 		}
-	}*/
+	}
 	
 	@RequestMapping(value="")
-	public ResponseEntity<MEquipo> MEquipoId(@RequestParam("id") Long id){
+	public ResponseEntity<MEquipo> Consulta_IdMEquipo(@RequestParam("id") Long id){
 		Optional<MEquipo> idequipo = mequiporepositorio.findById(id);
 		if(idequipo.isPresent()) {
 			return ResponseEntity.ok(idequipo.get());

@@ -103,10 +103,8 @@ public class AccesorioController {
 		int indiceAccesorio = 0;
 		indiceAccesorio = ListaAccesorio.size()+1;
 		this.accesorio = accesorio;
-
 		repoestatusRecurso.findById(estatus_id).map(u -> {
 			this.accesorio.setId_estatus(u);
-			;
 			return this.accesorio;
 		});
 		this.accesorio.setNombre_accesorio("Accesorio" + indiceAccesorio);
