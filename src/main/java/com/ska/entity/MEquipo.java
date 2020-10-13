@@ -50,6 +50,16 @@ public class MEquipo {
 	private String id_historico_equipo;
 	private String id_equipo_software;
 
+	private String factura;
+	
+	public String getFactura() {
+		return factura;
+	}
+
+	public void setFactura(String factura) {
+		this.factura = factura;
+	}
+
 	@JoinTable(name = "historicoequipo", 
 			joinColumns = @JoinColumn (name= "id_historico_equipo", nullable = false),
 			inverseJoinColumns = @JoinColumn(name="id_historico", nullable = false))
