@@ -1,12 +1,15 @@
 package com.ska.entity;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -19,12 +22,16 @@ public class Software {
 
 	private String nombre_software;
 	private String no_serie;
-	private String fecha_licencia;
+	private Date vigencia_inicial;
+	private Date vigencia_final;
+	private String version;
 	private String tipo_software;
 	private String tipo_licencia;
 	private String licencia_software;
-	private String vigencia_inicial;
-	private String vigencia_final;
+	
+	@Lob
+	@Column(name = "factura")
+	private byte[] factura;
 	
 
 	public Software() {
@@ -62,13 +69,33 @@ public class Software {
 	}
 
 
-	public String getFecha_licencia() {
-		return fecha_licencia;
+	public Date getVigencia_inicial() {
+		return vigencia_inicial;
 	}
 
 
-	public void setFecha_licencia(String fecha_licencia) {
-		this.fecha_licencia = fecha_licencia;
+	public void setVigencia_inicial(Date vigencia_inicial) {
+		this.vigencia_inicial = vigencia_inicial;
+	}
+
+
+	public Date getVigencia_final() {
+		return vigencia_final;
+	}
+
+
+	public void setVigencia_final(Date vigencia_final) {
+		this.vigencia_final = vigencia_final;
+	}
+
+
+	public String getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 
@@ -102,38 +129,30 @@ public class Software {
 	}
 
 
-	public String getVigencia_inicial() {
-		return vigencia_inicial;
+	public byte[] getFactura() {
+		return factura;
 	}
 
 
-	public void setVigencia_inicial(String vigencia_inicial) {
-		this.vigencia_inicial = vigencia_inicial;
+	public void setFactura(byte[] factura) {
+		this.factura = factura;
 	}
 
 
-	public String getVigencia_final() {
-		return vigencia_final;
-	}
-
-
-	public void setVigencia_final(String vigencia_final) {
-		this.vigencia_final = vigencia_final;
-	}
-
-
-	public Software(Long id_software, String nombre_software, String no_serie, String fecha_licencia,
-			String tipo_software, String tipo_licencia, String licencia_software, String vigencia_inicial,
-			String vigencia_final) {
+	public Software(Long id_software, String nombre_software, String no_serie, Date vigencia_inicial,
+			Date vigencia_final, String version, String tipo_software, String tipo_licencia, String licencia_software,
+			byte[] factura) {
 		super();
 		this.id_software = id_software;
 		this.nombre_software = nombre_software;
 		this.no_serie = no_serie;
-		this.fecha_licencia = fecha_licencia;
+		this.vigencia_inicial = vigencia_inicial;
+		this.vigencia_final = vigencia_final;
+		this.version = version;
 		this.tipo_software = tipo_software;
 		this.tipo_licencia = tipo_licencia;
 		this.licencia_software = licencia_software;
-		this.vigencia_inicial = vigencia_inicial;
-		this.vigencia_final = vigencia_final;
+		this.factura = factura;
 	}
+	
 }
