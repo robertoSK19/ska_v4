@@ -47,12 +47,12 @@ public class AsignacionAccesoriosController {
 		}
 	}
 	
-	@PostMapping(value="/post")
-	public ResponseEntity<AsignacionAccesorios> CrearAsignacion(@RequestParam ("estatus_id") Long estaus_id,
+	@PostMapping(value="/post/{estatus_id}")
+	public ResponseEntity<AsignacionAccesorios> CrearAsignacion(@PathVariable (value = "estatus_id") Long estatus_id,
 			@RequestBody AsignacionAccesorios asignacion){
 		this.asignacion = asignacion;
 		
-		estatusRepo.findById(estaus_id).map(status -> {
+		estatusRepo.findById(estatus_id).map(status -> {
 			this.asignacion.setEstatusrecurso(status);
 			return this.asignacion;
 		});

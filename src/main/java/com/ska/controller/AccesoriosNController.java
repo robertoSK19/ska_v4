@@ -65,7 +65,7 @@ public class AccesoriosNController {
 		
 	}
 	
-	@RequestMapping(value = "post/{id_asignacion}, {id_accesorio}")
+	@RequestMapping(value = "/post/{id_asignacion},{id_accesorio}")
 	public ResponseEntity<AccesoriosN> CrearEquipoSoftware (@PathVariable(value = "id_asignacion") Long id_asignacion,
 			@PathVariable(value = "id_accesorio") Long id_accesorio, @RequestBody AccesoriosN accesoriosN){
 		this.accesoriosN = accesoriosN;
