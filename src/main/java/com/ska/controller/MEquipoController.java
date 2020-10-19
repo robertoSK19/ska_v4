@@ -102,6 +102,7 @@ public class MEquipoController {
 			updateEquipo.setFecha_compra(estatus.getFecha_compra());
 			updateEquipo.setLugar_compra(estatus.getLugar_compra());
 			updateEquipo.setFecha_garantia_termino(estatus.getFecha_garantia_termino());
+			updateEquipo.setFactura(estatus.getFactura());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			
