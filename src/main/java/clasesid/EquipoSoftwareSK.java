@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class EquipoSoftwareSK implements Serializable{
 
 	private Long id_equipo;
-	private Long id_software;
+	private Long id_historico;
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id_equipo == null) ? 0 : id_equipo.hashCode());
-		result = prime * result + ((id_software == null) ? 0 : id_software.hashCode());
+		result = prime * result + ((id_historico == null) ? 0 : id_historico.hashCode());
 		return result;
 	}
 	@Override
@@ -28,10 +28,10 @@ public class EquipoSoftwareSK implements Serializable{
 				return false;
 		} else if (!id_equipo.equals(other.id_equipo))
 			return false;
-		if (id_software == null) {
-			if (other.id_software != null)
+		if (id_historico == null) {
+			if (other.id_historico != null)
 				return false;
-		} else if (!id_software.equals(other.id_software))
+		} else if (!id_historico.equals(other.id_historico))
 			return false;
 		return true;
 	}
@@ -41,12 +41,13 @@ public class EquipoSoftwareSK implements Serializable{
 	public void setId_equipo(Long id_equipo) {
 		this.id_equipo = id_equipo;
 	}
-	public Long getId_software() {
-		return id_software;
+	public Long getId_historico() {
+		return id_historico;
 	}
-	public void setId_software(Long id_software) {
-		this.id_software = id_software;
+	public void setId_historico(Long id_historico) {
+		this.id_historico = id_historico;
 	}
+
 	
 	
 }
