@@ -44,21 +44,21 @@ public class EquipoSoftwareController {
 	public ResponseEntity<EquipoSoftware> CrearEquipoSoftware(@PathVariable(value = "id_equipo") Long id_equipo,
 			@PathVariable(value = "id_software") Long id_software, @PathVariable(value= "id_historico") Long id_historico, @RequestBody EquipoSoftware equipoSoftware) {
 		
-		this.equipoSoftware = equipoSoftware;
-		repositorioMEquipo.findById(id_equipo).map(u -> {
-			this.equipoSoftware.setId_equipo(u);
-			return this.equipoSoftware;
-		});
-//		
-//		repositorioSoftware.findById(id_software).map(u -> {
-//			this.equipoSoftware.setId_software(u);
+//		this.equipoSoftware = equipoSoftware;
+//		repositorioMEquipo.findById(id_equipo).map(u -> {
+//			this.equipoSoftware.setId_equipo(u);
 //			return this.equipoSoftware;
 //		});
 //		
-		repositorioHistorico.findById(id_historico).map(u -> {
-			this.equipoSoftware.setId_historico(u);;
-			return this.equipoSoftware;
-		});
+////		repositorioSoftware.findById(id_software).map(u -> {
+//			this.equipoSoftware.setId_software(id_software);
+////			return this.equipoSoftware;
+////		});
+//		
+//		repositorioHistorico.findById(id_historico).map(u -> {
+//			this.equipoSoftware.setId_historico(u);;
+//			return this.equipoSoftware;
+//		});
 		
 		EquipoSoftware nuevoEquipoSoftware = repositorioEquipoSoftware.save(equipoSoftware);
 		return ResponseEntity.ok(nuevoEquipoSoftware);

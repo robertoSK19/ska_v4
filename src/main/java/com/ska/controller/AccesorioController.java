@@ -139,7 +139,8 @@ public class AccesorioController {
 	
 	@PutMapping(value = "/actualizarDatos")
 	public ResponseEntity<Accesorio> EditarDatosAccesorio(@RequestParam("estatus_id") Long estatus_id, @RequestBody Accesorio accesorio) {
-
+		log.info("id estatus" + estatus_id);
+		log.info("id accesorio" + accesorio.getId_accesorio());
 		Optional<Accesorio> optionalAccesorio = repoAccesorio.findById(accesorio.getId_accesorio());
 		if (optionalAccesorio.isPresent()) {
 			this.accesorio = accesorio;
@@ -154,7 +155,11 @@ public class AccesorioController {
 				this.accesorio.setId_estatus(u);
 				return this.accesorio;
 			});
-			
+			log.info(accesorio.getMarca());
+			log.info(accesorio.getModelo());
+			log.info(accesorio.getProducto());
+			log.info(accesorio.getSerie());
+			log.info("estatus" + accesorio.getId_estatus());
 			
 			Accesorio nuevoAccesorio = repoAccesorio.save(accesorio);
 			return ResponseEntity.ok(nuevoAccesorio);

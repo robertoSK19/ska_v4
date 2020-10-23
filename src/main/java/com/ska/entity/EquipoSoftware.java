@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import clasesid.EquipoSoftwareSK;
@@ -28,19 +30,20 @@ public class EquipoSoftware {
 	@JoinColumn(name = "id_software_historico", nullable = false)
 	private Historico id_historico;
 	
+	//@Id
+	//@OneToOne
 	@Column(name="software_id_software", nullable = false)
 	private Long id_software;
-
-	
 
 	public EquipoSoftware() {
 		
 	}
 
-	@JoinTable(name = "software",
-			joinColumns = @JoinColumn (name = "software_id_software", nullable = false),
-			inverseJoinColumns = @JoinColumn (name = "id_software", nullable = false))
-	@ManyToMany
+//	@JoinTable(name = "software",
+//			joinColumns = @JoinColumn (name = "software_id_software", nullable = false),
+//			inverseJoinColumns = @JoinColumn (name = "id_software", nullable = false))
+	//@ManyToMan
+	
 	
 	public Long getId_software() {
 		return id_software;

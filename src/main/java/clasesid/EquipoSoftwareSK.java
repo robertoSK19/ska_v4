@@ -6,12 +6,14 @@ public class EquipoSoftwareSK implements Serializable{
 
 	private Long id_equipo;
 	private Long id_historico;
+	private Long id_software;
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id_equipo == null) ? 0 : id_equipo.hashCode());
 		result = prime * result + ((id_historico == null) ? 0 : id_historico.hashCode());
+		result = prime * result + ((id_software == null) ? 0 : id_software.hashCode());
 		return result;
 	}
 	@Override
@@ -33,6 +35,11 @@ public class EquipoSoftwareSK implements Serializable{
 				return false;
 		} else if (!id_historico.equals(other.id_historico))
 			return false;
+		if (id_software == null) {
+			if (other.id_software != null)
+				return false;
+		} else if (!id_software.equals(other.id_software))
+			return false;
 		return true;
 	}
 	public Long getId_equipo() {
@@ -46,6 +53,12 @@ public class EquipoSoftwareSK implements Serializable{
 	}
 	public void setId_historico(Long id_historico) {
 		this.id_historico = id_historico;
+	}
+	public Long getd_software() {
+		return id_software;
+	}
+	public void setId_software(Long id_software) {
+		this.id_software = id_software;
 	}
 
 	
