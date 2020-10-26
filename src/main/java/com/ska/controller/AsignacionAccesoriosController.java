@@ -61,7 +61,7 @@ public class AsignacionAccesoriosController {
 		return ResponseEntity.ok(nuevaAsignacion);
 	}
 	
-	@PutMapping
+	@PutMapping(value = "/put/{id_estatus}")
 	public ResponseEntity<AsignacionAccesorios> EditarAccesorio(@RequestBody AsignacionAccesorios accesorio,
 			@PathVariable(value = "id_estatus") Long id_estatus){
 		
