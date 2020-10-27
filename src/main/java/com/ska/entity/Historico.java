@@ -37,6 +37,7 @@ public class Historico {
 	private String generacion_procesador;
 	private String tipo_disco_duro;
 	private String tamano_pantalla;
+	private String direccion_mac_wifi;
 	
 	@JoinTable(name = "equiposoftware",
 			joinColumns = @JoinColumn (name = "id_software_historico", nullable = false),
@@ -200,11 +201,19 @@ public class Historico {
 		this.software = software;
 	}
 
+	public String getDireccion_mac_wifi() {
+		return direccion_mac_wifi;
+	}
+
+	public void setDireccion_mac_wifi(String direccion_mac_wifi) {
+		this.direccion_mac_wifi = direccion_mac_wifi;
+	}
+
 	public Historico(long id_historico, String nombre_equipo, String marca, String modelo, String numero_serie,
 			String modelo_equipo_cmd, String numero_serie_cmd, String procesador, int ram, String disco_duro,
 			String tipo_computadora, String fecha_fabricacion, String nombre_sistema_operativo,
 			String tipo_sistema_operativo, String direccion_mac, String generacion_procesador, String tipo_disco_duro,
-			String tamaño_pantalla, List<Software> software) {
+			String direccion_mac_wifi, String tamaño_pantalla, List<Software> software) {
 		super();
 		this.id_historico = id_historico;
 		this.nombre_equipo = nombre_equipo;
@@ -223,6 +232,7 @@ public class Historico {
 		this.direccion_mac = direccion_mac;
 		this.generacion_procesador = generacion_procesador;
 		this.tipo_disco_duro = tipo_disco_duro;
+		this.direccion_mac_wifi = direccion_mac_wifi;
 		this.tamano_pantalla = tamano_pantalla;
 		this.software = software;
 	}

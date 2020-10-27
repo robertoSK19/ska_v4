@@ -103,6 +103,7 @@ public class MEquipoController {
 			updateEquipo.setLugar_compra(estatus.getLugar_compra());
 			updateEquipo.setFecha_garantia_termino(estatus.getFecha_garantia_termino());
 			updateEquipo.setFactura(estatus.getFactura());
+			updateEquipo.setDireccion_mac_wifi(estatus.getDireccion_mac_wifi());
 			mequiporepositorio.save(updateEquipo);
 			return ResponseEntity.ok(updateEquipo);
 			
