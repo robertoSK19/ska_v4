@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class MEquipo {
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	// @GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id_equipo;
 	private String nombre_equipo;
 	private String marca;
